@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ - Đặt vé xem phim</title>
+    <link rel="stylesheet" href="/frontend/css/3002-user.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <!-- Section 1 - Banner Slider -->
+    <div class="section-1">
+        <div class="banner-slider">
+            <div class="banner-slide active">
+                <img src="/main-app/views/client/pages/assets/images/banner-1.png" alt="Banner 1">
+            </div>
+            <div class="banner-slide">
+                <img src="/main-app/views/client/pages/assets/images/banner-2.jpg" alt="Banner 2">
+            </div>
+            <div class="banner-slide">
+                <img src="/main-app/views/client/pages/assets/images/banner-3.jpg" alt="Banner 3">
+            </div>
+            <div class="banner-slide">
+                <img src="/main-app/views/client/pages/assets/images/banner-4.png" alt="Banner 4">
+            </div>
+            <div class="banner-slide">
+                <img src="/main-app/views/client/pages/assets/images/banner-5.png" alt="Banner 5">
+            </div>
+            
+            <!-- <div class="banner-overlay">
+                <div class="container">
+                    <p class="inner-desc">
+                        🎬 Đặt Vé Xem Phim Online - Trải Nghiệm Điện Ảnh Tuyệt Vời
+                    </p>
+                </div>
+            </div> -->
+
+            <div class="banner-dots">
+                <span class="banner-dot active" data-slide="0"></span>
+                <span class="banner-dot" data-slide="1"></span>
+                <span class="banner-dot" data-slide="2"></span>
+                <span class="banner-dot" data-slide="3"></span>
+                <span class="banner-dot" data-slide="4"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 4 - Movies Tabs -->
+    <div class="section-movies-tabs">
+        <div class="container">
+            <!-- Tab Navigation -->
+            <div class="movie-tabs-nav">
+                <button class="tab-btn active" data-tab="now-showing">PHIM ĐANG CHIẾU</button>
+                <button class="tab-btn" data-tab="coming-soon">PHIM SẮP CHIẾU</button>
+            </div>
+
+            <!-- Tab Content - Phim Đang Chiếu -->
+            <div class="tab-content active" id="now-showing">
+                <div class="movie-grid" id="now-showing-grid">
+                    <div class="loading-spinner">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <p>Đang tải danh sách phim...</p>
+                    </div>
+                </div>
+                <div class="inner-button" id="now-showing-btn" style="display: none;">
+                    <a class="button-outline" href="/category/phim-dang-chieu">Xem tất cả</a>
+                </div>
+            </div>
+
+            <!-- Tab Content - Phim Sắp Chiếu -->
+            <div class="tab-content" id="coming-soon">
+                <div class="movie-grid" id="coming-soon-grid">
+                    <div class="loading-spinner">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <p>Đang tải danh sách phim...</p>
+                    </div>
+                </div>
+                <div class="inner-button" id="coming-soon-btn" style="display: none;">
+                    <a class="button-outline" href="/category/phim-sap-chieu">Xem tất cả</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 5 - Banner -->
+    <div class="section-5" data-aos-duration="800" data-aos="fade-up">
+        <div class="container">
+            <div class="inner-image">
+                <a href="#">
+                    <img alt="Banner khuyến mãi" src="/assets/images/banner-4.jpg">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 8 - Tin Tức -->
+    <div class="section-8">
+        <div class="container">
+            <h2 class="box-title" data-aos-duration="800" data-aos="fade-up">Tin Tức Mới</h2>
+            <div class="inner-wrap" data-aos-delay="150" data-aos-duration="800" data-aos="fade-up">
+                <div class="blog-item">
+                    <a href="#">
+                        <div class="inner-image">
+                            <img alt="Blog 1" src="/assets/images/blog-1.jpg">
+                        </div>
+                        <div class="inner-content">
+                            <div class="inner-date">23/05/2024</div>
+                            <h3 class="inner-title">Homestay "cổ tích" giữa Đà Lạt mộng mơ</h3>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="blog-item-2">
+                    <a href="#">
+                        <div class="inner-image">
+                            <img alt="Blog 2" src="/assets/images/blog-2.jpg">
+                        </div>
+                        <div class="inner-content">
+                            <div class="inner-date">23/05/2024</div>
+                            <h3 class="inner-title">Top 5 điểm check in độc đáo tại Singapore</h3>
+                            <div class="inner-desc">Nếu bạn nghĩ du lịch Singapore rất nhàm chán...</div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="blog-item">
+                    <a href="#">
+                        <div class="inner-image">
+                            <img alt="Blog 3" src="/assets/images/blog-3.jpg">
+                        </div>
+                        <div class="inner-content">
+                            <div class="inner-date">23/05/2024</div>
+                            <h3 class="inner-title">Đặc sản không thể bỏ qua khi đến với Đà Nẵng - Hội An</h3>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="blog-item">
+                    <a href="#">
+                        <div class="inner-image">
+                            <img alt="Blog 4" src="/assets/images/blog-4.jpg">
+                        </div>
+                        <div class="inner-content">
+                            <div class="inner-date">23/05/2024</div>
+                            <h3 class="inner-title">Đảo Phú Quý Bình Thuận hot trend năm 2024</h3>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="blog-item">
+                    <a href="#">
+                        <div class="inner-image">
+                            <img alt="Blog 5" src="/assets/images/blog-5.jpg">
+                        </div>
+                        <div class="inner-content">
+                            <div class="inner-date">23/05/2024</div>
+                            <h3 class="inner-title">Trekking cắm trại tại Đà Lạt</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+    <div id="book-contact-placeholder"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="/Booking-service/frontend/js/home.js"></script>
+</body>
+</html>

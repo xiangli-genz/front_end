@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tổng quan</title>
+    <link rel="stylesheet" href="/Booking-service/frontend/css/adminstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="sider-placeholder"></div>
+  <main class="main">
+    <h1 class="box-title">Tổng quan</h1>
+    
+    <!-- Section 1 -->
+    <div class="section-1">
+      <div class="inner-item">
+        <div class="inner-icon">
+          <img src="/Booking-service/frontend/images/section-1-icon-1.svg" alt="">
+        </div>
+        <div class="inner-content">
+          <div class="inner-title">Quản trị viên</div>
+          <div class="inner-number">0</div>
+        </div>
+      </div>
+      
+      <div class="inner-item">
+        <div class="inner-icon">
+          <img src="/Booking-service/frontend/images/section-1-icon-2.svg" alt="">
+        </div>
+        <div class="inner-content">
+          <div class="inner-title">Người dùng</div>
+          <div class="inner-number">0</div>
+        </div>
+      </div>
+      
+      <div class="inner-item">
+        <div class="inner-icon">
+          <img src="/Booking-service/frontend/images/section-1-icon-3.svg" alt="">
+        </div>
+        <div class="inner-content">
+          <div class="inner-title">Đơn đặt vé</div>
+          <div class="inner-number">0</div>
+        </div>
+      </div>
+      
+      <div class="inner-item">
+        <div class="inner-icon">
+          <img src="/Booking-service/frontend/images/section-1-icon-4.png" alt="">
+        </div>
+        <div class="inner-content">
+          <div class="inner-title">Doanh thu</div>
+          <div class="inner-number">0đ</div>
+        </div>
+      </div>
+    </div>
+    <!-- End Section 1 -->
+
+    <!-- Section 2 -->
+    <div class="section-2">
+      <div class="inner-head">
+        <h2 class="inner-title">Biểu đồ doanh thu</h2>
+        <div class="inner-filter">
+          <input type="month">
+        </div>
+      </div>
+      <div class="inner-chart">
+        <canvas id="revenue-chart"></canvas>
+      </div>
+    </div>
+    <!-- End Section 2 -->
+
+    <!-- Section 3 -->
+    <div class="section-3">
+      <h2 class="inner-title">Đơn đặt vé mới</h2>
+      <div class="table-1">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã đặt vé</th>
+              <th>Thông tin khách</th>
+              <th>Phim</th>
+              <th>Ghế & Combo</th>
+              <th>Thanh toán</th>
+              <th class="inner-text-right">Ngày đặt</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="inner-code">BK001</div>
+              </td>
+              <td>
+                <div class="inner-text">Họ tên: Nguyễn Văn A</div>
+                <div class="inner-text">SĐT: 0123456789</div>
+              </td>
+              <td>
+                <div class="inner-text">Avengers: Endgame</div>
+                <div class="inner-text">Rạp: CGV Vincom</div>
+              </td>
+              <td>
+                <div class="inner-text">Ghế: A1, A2</div>
+                <div class="inner-text">Combo: Combo 1</div>
+              </td>
+              <td>
+                <div class="inner-text">Tổng: 200.000đ</div>
+                <div class="inner-text">PTTT: Momo</div>
+                <div class="inner-text">TTTT: Đã thanh toán</div>
+              </td>
+              <td class="inner-text-right">
+                <div class="inner-text">01/01/2024</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+            fetch('adminpartials/header.html')
+    .then(response => response.text())
+    .then(html => document.getElementById('header-placeholder').innerHTML = html)
+    .catch(err => console.error('Lỗi load header:', err));
+
+// Load sider + gắn event menu mobile (chỉ sau khi load xong)
+fetch('adminpartials/sider.html')
+    .then(response => response.text())
+    .then(html => {
+    document.getElementById('sider-placeholder').innerHTML = html;
+
+    // Gắn sự kiện menu mobile ngay sau khi insert HTML
+    const buttonMenu = document.querySelector('.inner-button-menu');
+    const sider = document.querySelector('.sider');
+    const overlay = document.querySelector('.sider-overlay');
+
+    if (buttonMenu && sider && overlay) {
+        buttonMenu.addEventListener('click', () => {
+        sider.classList.add('active');
+        overlay.classList.add('active');
+        });
+
+        overlay.addEventListener('click', () => {
+        sider.classList.remove('active');
+        overlay.classList.remove('active');
+        });
+    } else {
+        console.warn('Không tìm thấy các element menu mobile');
+    }
+    })
+    .catch(err => console.error('Lỗi load sider:', err));
+        </script>
+        <!-- End Section 7 -->
+
+        <script src="/Booking-service/frontend/js/3002-scripts.js"></script>
+    <!-- End Section 3 -->
+  </main>
+</body>
+</html>

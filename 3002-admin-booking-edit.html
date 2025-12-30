@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chỉnh sửa phim</title>
+  <link rel="stylesheet" href="assets/css/adminstyle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/filepond@^4/dist/filepond.css">
+  <link rel="stylesheet" href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css">
+  <!-- TinyMCE - CDN miễn phí, không cần API key -->
+  <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
+</head>
+<body>
+  <!-- Placeholder cho header -->
+  <div id="header-placeholder"></div>
+
+  <!-- Placeholder cho sider -->
+  <div id="sider-placeholder"></div>
+
+  <!-- Main content -->
+  <main class="main">
+      <h1 class="box-title">Đặt vé: <span id="bookingCode">BK001</span></h1>
+
+      <div class="section-8">
+        <form id="booking-edit-form">
+          <!-- Thông tin phim -->
+          <div class="inner-group">
+            <label class="inner-label">Thông tin phim</label>
+            <div class="inner-order-list">
+              <div class="inner-order-item">
+                <div class="inner-order-image">
+                  <img id="movieAvatar" src="https://via.placeholder.com/80x120" alt="Movie">
+                </div>
+                <div class="inner-order-content">
+                  <div class="inner-order-name" id="movieName">Avengers: Endgame</div>
+                  <div class="inner-order-text">Rạp: <span id="cinema">CGV Vincom</span></div>
+                  <div class="inner-order-text">Ngày: <span id="showtimeDate">28/12/2025</span></div>
+                  <div class="inner-order-text">Giờ: <span id="showtimeTime">19:30</span></div>
+                  <div class="inner-order-text">Định dạng: <span id="showtimeFormat">2D</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thông tin ghế -->
+          <div class="inner-group">
+            <label class="inner-label">Thông tin ghế</label>
+            <div class="inner-order-total" id="seatsInfo">
+              <div>Đang tải...</div>
+            </div>
+          </div>
+
+          <!-- Combo đã chọn -->
+          <div class="inner-group">
+            <label class="inner-label">Combo đã chọn</label>
+            <div class="inner-order-total" id="combosInfo">
+              <div>Không có combo</div>
+            </div>
+          </div>
+
+          <!-- Trạng thái thanh toán -->
+          <div class="inner-group">
+            <label class="inner-label" for="paymentStatus">Trạng thái thanh toán</label>
+            <select id="paymentStatus" name="paymentStatus">
+              <option value="pending">Chờ thanh toán</option>
+              <option value="paid">Đã thanh toán</option>
+              <option value="failed">Thanh toán thất bại</option>
+              <option value="refunded">Đã hoàn tiền</option>
+            </select>
+          </div>
+
+          <!-- Trạng thái đặt vé -->
+          <div class="inner-group">
+            <label class="inner-label" for="status">Trạng thái đặt vé</label>
+            <select id="status" name="status">
+              <option value="initial">Khởi tạo</option>
+              <option value="confirmed">Đã xác nhận</option>
+              <option value="cancelled">Đã hủy</option>
+              <option value="completed">Hoàn thành</option>
+            </select>
+          </div>
+
+          <!-- Ngày đặt -->
+          <div class="inner-group">
+            <label class="inner-label" for="createdAt">Ngày đặt</label>
+            <input type="datetime-local" id="createdAt" name="createdAt" readonly>
+          </div>
+
+          <!-- Ghi chú -->
+          <div class="inner-group">
+            <label class="inner-label" for="note">Ghi chú</label>
+            <textarea id="note" name="note" placeholder="Nhập ghi chú..."></textarea>
+          </div>
+
+          <!-- Thanh toán -->
+          <div class="inner-group">
+            <label class="inner-label">Thanh toán</label>
+            <div class="inner-order-total">
+              <div>Tiền vé: <span id="subTotal">0</span>đ</div>
+              <div>Tiền combo: <span id="comboTotal">0</span>đ</div>
+              <div>Giảm giá: <span id="discount">0</span>đ</div>
+              <div>Tổng thanh toán: <span class="inner-order-price" id="total">0</span>đ</div>
+            </div>
+          </div>
+
+          <!-- Button -->
+          <div class="inner-button inner-two-col">
+            <button type="submit">Cập nhật</button>
+          </div>
+        </form>
+
+        <div class="inner-back">
+          <a href="/admin/booking/list">Quay lại danh sách</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+
+  <!-- Section 7 - Phân trang -->
+  <div class="section-7">
+    <span class="inner-label">
+      Hiển thị <span id="startRecord">1</span> - <span id="endRecord">10</span> của <span id="totalRecords">0</span>
+    </span>
+    <select class="inner-pagination" id="pagination">
+      <option value="1">Trang 1</option>
+    </select>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+  <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const API_BASE = 'http://localhost:3002/api/admin/bookings';
+    
+    // Get booking ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const bookingId = urlParams.get('id');
+    
+    if (!bookingId) {
+      alert('Không tìm thấy ID booking trong URL');
+      window.location.href = 'booking-list.html';
+    }
+    
+    document.getElementById('bookingId').value = bookingId;
+
+    // Load header & sider
+    fetch('partials/header.html')
+      .then(response => response.text())
+      .then(html => document.getElementById('header-placeholder').innerHTML = html);
+
+    fetch('partials/sider.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('sider-placeholder').innerHTML = html;
+        const buttonMenu = document.querySelector('.inner-button-menu');
+        const sider = document.querySelector('.sider');
+        const overlay = document.querySelector('.sider-overlay');
+        if (buttonMenu && sider && overlay) {
+          buttonMenu.addEventListener('click', () => {
+            sider.classList.add('active');
+            overlay.classList.add('active');
+          });
+          overlay.addEventListener('click', () => {
+            sider.classList.remove('active');
+            overlay.classList.remove('active');
+          });
+        }
+      });
+
+    // Load booking data
+    async function loadBooking() {
+      try {
+        const response = await axios.get(`${API_BASE}/${bookingId}`);
+        const result = response.data;
+
+        if (result.code === 'success') {
+          const booking = result.data.booking;
+          fillForm(booking);
+        } else {
+          alert('Lỗi: ' + result.message);
+          window.location.href = 'booking-list.html';
+        }
+      } catch (error) {
+        console.error('Lỗi load booking:', error);
+        alert('Không thể tải thông tin booking');
+        window.location.href = 'booking-list.html';
+      }
+    }
+
+    // Fill form with booking data
+    function fillForm(booking) {
+      // Booking code
+      document.getElementById('bookingCode').textContent = booking.bookingCode;
+
+      // Movie info
+      document.getElementById('movieAvatar').src = booking.movieAvatar || 'https://via.placeholder.com/115x115';
+      document.getElementById('movieName').textContent = booking.movieName;
+      document.getElementById('cinema').textContent = booking.cinema;
+      document.getElementById('showtimeDate').textContent = booking.showtimeDateFormat;
+      document.getElementById('showtimeTime').textContent = booking.showtime.time;
+      document.getElementById('showtimeFormat').textContent = booking.showtime.format;
+
+      // Customer info
+      document.getElementById('fullName').value = booking.fullName || '';
+      document.getElementById('phone').value = booking.phone || '';
+      document.getElementById('email').value = booking.email || '';
+      document.getElementById('note').value = booking.note || '';
+
+      // Seats info
+      const seatsHtml = booking.seats.map(seat => 
+        `<div><strong>${seat.seatNumber}</strong> - ${seat.type} - ${seat.price.toLocaleString('vi-VN')}đ</div>`
+      ).join('');
+      document.getElementById('seatsInfo').innerHTML = seatsHtml || 'Không có ghế';
+
+      // Combos info
+      if (booking.combos && booking.combos.length > 0) {
+        const combosHtml = booking.combos.map(combo => 
+          `<div><strong>${combo.name}</strong> x${combo.quantity} - ${combo.totalPrice.toLocaleString('vi-VN')}đ</div>`
+        ).join('');
+        document.getElementById('combosInfo').innerHTML = combosHtml;
+      } else {
+        document.getElementById('combosInfo').innerHTML = 'Không có combo';
+      }
+
+      // Payment info
+      document.getElementById('paymentMethod').value = booking.paymentMethod || 'cash';
+      document.getElementById('paymentStatus').value = booking.paymentStatus;
+      document.getElementById('status').value = booking.status;
+
+      // Prices
+      document.getElementById('subTotal').textContent = booking.subTotal.toLocaleString('vi-VN');
+      document.getElementById('comboTotal').textContent = booking.comboTotal.toLocaleString('vi-VN');
+      document.getElementById('discount').textContent = (booking.discount || 0).toLocaleString('vi-VN');
+      document.getElementById('total').textContent = booking.total.toLocaleString('vi-VN');
+
+      // Created date
+      document.getElementById('createdAt').value = booking.createdAtFormat;
+    }
+
+    // Submit form
+    document.getElementById('booking-edit-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        fullName: document.getElementById('fullName').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        note: document.getElementById('note').value.trim(),
+        paymentMethod: document.getElementById('paymentMethod').value,
+        paymentStatus: document.getElementById('paymentStatus').value,
+        status: document.getElementById('status').value
+      };
+
+      // Validate
+      if (!formData.fullName) {
+        alert('Vui lòng nhập họ tên!');
+        return;
+      }
+
+      if (!formData.phone) {
+        alert('Vui lòng nhập số điện thoại!');
+        return;
+      }
+
+      const phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+      if (!phoneRegex.test(formData.phone)) {
+        alert('Số điện thoại không hợp lệ!');
+        return;
+      }
+
+      try {
+        const response = await axios.patch(`${API_BASE}/${bookingId}`, formData);
+        const result = response.data;
+
+        if (result.code === 'success') {
+          alert('Cập nhật booking thành công!');
+          window.location.reload();
+        } else {
+          alert('Lỗi: ' + result.message);
+        }
+      } catch (error) {
+        console.error('Lỗi cập nhật:', error);
+        if (error.response && error.response.data) {
+          alert('Lỗi: ' + (error.response.data.message || 'Không xác định'));
+        } else {
+          alert('Lỗi kết nối hoặc server');
+        }
+      }
+    });
+
+    // Initial load
+    loadBooking();
+  </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chỉnh sửa danh mục</title>
+  <link rel="stylesheet" href="/Booking-service/frontend/css/adminstyle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/filepond@^4/dist/filepond.css">
+  <link rel="stylesheet" href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css">
+  <!-- TinyMCE - CDN miễn phí, không cần API key -->
+  <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <!-- Placeholder cho sider -->
+    <div id="sider-placeholder"></div>
+    <main class="main">
+        <h1 class="box-title">Chỉnh sửa danh mục</h1>
+
+        <div class="section-8">
+            <form id="category-edit-form">
+                <div class="inner-group" style="display: none;">
+                    <label class="inner-label" for="id">Id</label>
+                    <input type="text" id="id" name="id">
+                </div>
+
+                <div class="inner-group">
+                    <label class="inner-label" for="name">Tên danh mục</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="inner-group">
+                    <label class="inner-label" for="parent">Danh mục cha</label>
+                    <select id="parent" name="parent">
+                        <option value="">-- Chọn danh mục --</option>
+                    </select>
+                </div>
+
+                <div class="inner-group">
+                    <label class="inner-label" for="position">Vị trí</label>
+                    <input type="number" id="position" name="position" value="1" min="1">
+                </div>
+
+                <div class="inner-group">
+                    <label class="inner-label" for="status">Trạng thái</label>
+                    <select id="status" name="status">
+                        <option value="active">Hoạt động</option>
+                        <option value="inactive">Tạm dừng</option>
+                    </select>
+                </div>
+
+                <div class="inner-group inner-two-col">
+                    <label class="inner-label" for="avatar">Ảnh đại diện</label>
+                    <div class="inner-upload-image" id="imageUploadContainer">
+                        <input type="file" id="avatar" accept="image/*" name="avatar">
+                        <div class="image-preview-container">
+                            <img id="imagePreview" class="image-preview" src="" alt="Preview">
+                            <button type="button" id="removeImage" class="remove-image">Xóa ảnh</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inner-group inner-two-col">
+                    <label class="inner-label" for="description">Mô tả</label>
+                    <textarea id="description" name="description" rows="10"></textarea>
+                </div>
+
+                <div class="inner-button inner-two-col">
+                    <button type="submit">Cập nhật</button>
+                </div>
+            </form>
+
+            <div class="inner-back">
+                <a href="" id="backLink">Quay lại danh sách</a>
+            </div>
+        </div>
+    </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+        <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+        <script>
+                fetch('adminpartials/header.html')
+                    .then(response => response.text())
+                    .then(html => document.getElementById('header-placeholder').innerHTML = html)
+                    .catch(err => console.error('Lỗi load header:', err));
+
+                // Load sider + gắn event menu mobile (chỉ sau khi load xong)
+                fetch('adminpartials/sider.html')
+                    .then(response => response.text())
+                    .then(html => {
+                    document.getElementById('sider-placeholder').innerHTML = html;
+
+                    // Gắn sự kiện menu mobile ngay sau khi insert HTML
+                    const buttonMenu = document.querySelector('.inner-button-menu');
+                    const sider = document.querySelector('.sider');
+                    const overlay = document.querySelector('.sider-overlay');
+
+                    if (buttonMenu && sider && overlay) {
+                        buttonMenu.addEventListener('click', () => {
+                        sider.classList.add('active');
+                        overlay.classList.add('active');
+                        });
+
+                        overlay.addEventListener('click', () => {
+                        sider.classList.remove('active');
+                        overlay.classList.remove('active');
+                        });
+                    } else {
+                        console.warn('Không tìm thấy các element menu mobile');
+                    }
+                    })
+                    .catch(err => console.error('Lỗi load sider:', err));
+                        </script>
+                        <!-- End Section 7 -->
+
+                        <script src="/Booking-service/frontend/js/3002-scripts.js"></script>
+
+
+</body>
+</html>
