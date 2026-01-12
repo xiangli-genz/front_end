@@ -1,0 +1,303 @@
+/* ============================================ */
+/* FILE: assets/css/payment.css */
+/* ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    width: 100%;
+    max-width: 480px;
+}
+
+.card {
+    background: white;
+    border-radius: 8px;
+    padding: 40px 32px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* ===== ICON STYLES ===== */
+.icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 24px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon i {
+    font-size: 32px;
+    color: #666;
+}
+
+/* Processing page spinner */
+.icon.processing i {
+    animation: spin 1s linear infinite;
+}
+
+/* Failed page icon */
+.icon.failed {
+    background: #ffebee;
+}
+
+.icon.failed i {
+    color: #d32f2f;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.description {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 32px;
+    line-height: 1.6;
+}
+
+/* ===== INFO BOX ===== */
+.info-box {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 24px 0;
+    text-align: left;
+}
+
+.info-box h3 {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-size: 14px;
+    color: #666;
+}
+
+.info-value {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* ===== PROGRESS BAR (Processing page) ===== */
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 24px 0 12px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #666;
+    animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes progress {
+    0% { width: 0%; }
+    50% { width: 70%; }
+    100% { width: 100%; }
+}
+
+.progress-text {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 24px;
+}
+
+/* ===== NOTICE BOX (Processing page) ===== */
+.notice {
+    background: #fffbf0;
+    border: 1px solid #ffe4a3;
+    border-radius: 6px;
+    padding: 16px;
+    font-size: 14px;
+    color: #856404;
+    text-align: left;
+    line-height: 1.6;
+}
+
+.notice i {
+    margin-right: 8px;
+}
+
+/* ===== REASONS BOX (Failed page) ===== */
+.reasons-box {
+    background: #fff8f0;
+    border: 1px solid #ffe4a3;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 24px 0;
+    text-align: left;
+}
+
+.reasons-box h4 {
+    font-size: 15px;
+    color: #856404;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.reasons-box h4 i {
+    margin-right: 8px;
+}
+
+.reasons-list {
+    list-style: none;
+    padding: 0;
+}
+
+.reasons-list li {
+    padding: 8px 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+    padding-left: 20px;
+    position: relative;
+}
+
+.reasons-list li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #999;
+}
+
+/* ===== BUTTONS ===== */
+.buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.btn {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: #333;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #555;
+}
+
+.btn-secondary {
+    background: white;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.btn-secondary:hover {
+    background: #fafafa;
+}
+
+/* ===== SUPPORT BOX ===== */
+.support {
+    margin-top: 32px;
+    padding: 16px;
+    background: #f0f9ff;
+    border: 1px solid #b3d9ff;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #0d47a1;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.support i {
+    margin-right: 8px;
+}
+
+.support strong {
+    color: #0d47a1;
+}
+
+/* ===== SECURITY (Processing page) ===== */
+.security {
+    margin-top: 24px;
+    font-size: 13px;
+    color: #999;
+}
+
+.security i {
+    margin-right: 6px;
+    color: #4caf50;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+    .card {
+        padding: 32px 24px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+

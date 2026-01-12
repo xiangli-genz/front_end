@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt Vé Thành Công - Cinema Booking</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="/Booking-service/frontend/css/booking-success.css">
+  
+</head>
+<body>
+  <div class="container">
+    <div class="card" id="contentCard">
+      <!-- Loading State -->
+      <div class="loading" id="loadingState">
+        <div class="spinner"></div>
+        <p style="color: #666; font-size: 1.1em;">Đang tải thông tin đặt vé...</p>
+      </div>
+
+      <!-- Success Content -->
+      <div style="display: none;" id="successContent">
+        <div class="success-header">
+          <div class="success-icon">✅</div>
+          <h1>Đặt Vé Thành Công!</h1>
+          <p>Cảm ơn bạn đã đặt vé</p>
+        </div>
+
+        <div class="booking-code">
+          <div class="booking-code-label">MÃ ĐẶT VÉ</div>
+          <div class="booking-code-value" id="bookingCodeDisplay">-</div>
+        </div>
+
+        <div class="alert">
+          <strong>Lưu ý:</strong> Vui lòng đến quầy trước giờ chiếu 15 phút để nhận vé.
+        </div>
+
+        <!-- Movie Info -->
+        <div class="section">
+          <h3 class="section-title">Thông Tin Phim</h3>
+          <div class="info-row">
+            <div class="info-label">Tên Phim:</div>
+            <div class="info-value" id="movieName">-</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Rạp Chiếu:</div>
+            <div class="info-value" id="cinema">-</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Ngày Chiếu:</div>
+            <div class="info-value" id="showtimeDate">-</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Giờ Chiếu:</div>
+            <div class="info-value" id="showtimeTime">-</div>
+          </div>
+        </div>
+
+        <!-- Seats -->
+        <div class="section">
+          <h3 class="section-title">Ghế Đã Đặt</h3>
+          <div class="seats-container" id="seatsContainer"></div>
+        </div>
+
+        <!-- Combos -->
+        <div class="section" id="combosSection" style="display: none;">
+          <h3 class="section-title">Combo Đồ Ăn</h3>
+          <div id="combosContainer"></div>
+        </div>
+
+        <!-- Customer Info -->
+        <div class="section">
+          <h3 class="section-title">Thông Tin Khách Hàng</h3>
+          <div class="info-row">
+            <div class="info-label">Họ Tên:</div>
+            <div class="info-value" id="customerName">-</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Số Điện Thoại:</div>
+            <div class="info-value" id="customerPhone">-</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Email:</div>
+            <div class="info-value" id="customerEmail">-</div>
+          </div>
+        </div>
+
+        <!-- Payment Info -->
+        <div class="section">
+          <h3 class="section-title">Thanh Toán</h3>
+          <div class="info-row">
+            <div class="info-label">Phương Thức:</div>
+            <div class="info-value" id="paymentMethod">-</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Trạng Thái:</div>
+            <div class="info-value">
+              <span class="payment-status" id="paymentStatus">-</span>
+            </div>
+          </div>
+
+          <div class="price-summary">
+            <div class="price-row">
+              <span>Tiền vé:</span>
+              <span id="subTotal">-</span>
+            </div>
+            <div class="price-row" id="comboTotalRow" style="display: none;">
+              <span>Combo:</span>
+              <span id="comboTotal">-</span>
+            </div>
+            <div class="price-row" id="discountRow" style="display: none;">
+              <span>Giảm giá:</span>
+              <span style="color: #10b981;" id="discount">-</span>
+            </div>
+            <div class="price-row total">
+              <span>TỔNG CỘNG:</span>
+              <span id="totalAmount">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-warning" id="unpaidAlert" style="display: none;">
+          <strong>Chưa thanh toán:</strong> Vui lòng thanh toán tại quầy khi nhận vé.
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+          <button class="btn btn-primary" onclick="window.print()">🖨️ In Vé</button>
+          <button class="btn btn-primary" onclick="downloadTicket()">📥 Tải Vé</button>
+          <button class="btn btn-secondary" onclick="window.location.href='/'">🏠 Về Trang Chủ</button>
+        </div>
+      </div>
+
+      <!-- Error Content -->
+      <div style="display: none;" id="errorContent">
+        <div class="error-message">
+          <h2>❌ Không Tìm Thấy</h2>
+          <p id="errorMessage">Không tìm thấy thông tin đặt vé.</p>
+          <button class="btn btn-primary" onclick="window.location.href='/'" style="margin-top: 20px;">
+            Về Trang Chủ
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QRCode.js Library - Load trước -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  
+  <!-- JavaScript - Load sau -->
+  <script src="/Booking-service/frontend/js/booking-success.js"></script>
+</body>
+</html>

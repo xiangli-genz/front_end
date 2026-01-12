@@ -253,1004 +253,34 @@ if(revenueChart) {
 }
 // Hết Biểu đồ doanh thu
 
-// Category Create Form
-const categoryCreateForm = document.querySelector("#category-create-form");
-if (categoryCreateForm) {
-  const validation = new JustValidate("#category-create-form");
+// Category Create/Edit (validation-based handlers are defined in separate admin-only block)
+// For pages that use plain forms (non-admin client), use the simpler handlers later in the file.
+// This section intentionally left minimal to avoid duplicate handlers.
+// Category create/edit are handled in the minimal form-specific code blocks found near the end of this file.
 
-  validation
-    .addField("#name", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập tên danh mục!",
-      },
-    ])
-    .onSuccess((event) => {
-      const name = event.target.name.value;
-      const parent = event.target.parent.value;
-      const position = event.target.position.value;
-      const status = event.target.status.value;
-      const avatars = filePond.avatar.getFiles();
-      let avatar = null;
-      if (avatars.length > 0) {
-        avatar = avatars[0].file;
-      }
-      const description = tinymce.get("description").getContent();
 
-      // Tạo FormData
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("parent", parent);
-      formData.append("position", position);
-      formData.append("status", status);
-      formData.append("avatar", avatar);
-      formData.append("description", description);
+// Tours removed — not used in Booking-service frontend
 
-      fetch(`/${pathAdmin}/category/create`, {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "error") {
-            alert(data.message);
-          }
 
-          if (data.code == "success") {
-            window.location.href = `/${pathAdmin}/category/list`;
-          }
-        });
-    });
-}
-// End Category Create Form
-// Category Edit Form
-const categoryEditForm = document.querySelector("#category-edit-form");
-if (categoryEditForm) {
-  const validation = new JustValidate("#category-edit-form");
+// Orders (edit) removed — not used in Booking-service frontend
 
-  validation
-    .addField("#name", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập tên danh mục!",
-      },
-    ])
-    .onSuccess((event) => {
-      const id = event.target.id.value;
-      const name = event.target.name.value;
-      const parent = event.target.parent.value;
-      const position = event.target.position.value;
-      const status = event.target.status.value;
-      const avatars = filePond.avatar.getFiles();
-      let avatar = null;
-      if (avatars.length > 0) {
-        avatar = avatars[0].file;
-        const elementImageDefault =
-          event.target.avatar.closest("[image-default]");
-        const imageDefault = elementImageDefault.getAttribute("image-default");
-        if (imageDefault.includes(avatar.name)) {
-          avatar = null;
-        }
-      }
-      const description = tinymce.get("description").getContent();
 
-      // Tạo FormData
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("parent", parent);
-      formData.append("position", position);
-      formData.append("status", status);
-      formData.append("avatar", avatar);
-      formData.append("description", description);
+// Website settings removed — not used in Booking-service frontend
 
-      fetch(`/${pathAdmin}/category/edit/${id}`, {
-        method: "PATCH",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "error") {
-            alert(data.message);
-          }
 
-          if (data.code == "success") {
-            window.location.reload();
-          }
-        });
-    });
-}
-// End Category Edit Form
+// Admin account create removed — not used in Booking-service frontend
 
-// Tour Create Form
-const tourCreateForm = document.querySelector("#tour-create-form");
-if (tourCreateForm) {
-  const validation = new JustValidate("#tour-create-form");
+// Admin account edit removed — not used in Booking-service frontend
 
-  validation
-    .addField("#name", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập tên tour!",
-      },
-    ])
-    .onSuccess((event) => {
-      const name = event.target.name.value;
-      const category = event.target.category.value;
-      const position = event.target.position.value;
-      const status = event.target.status.value;
-      const avatars = filePond.avatar.getFiles();
-      let avatar = null;
-      if (avatars.length > 0) {
-        avatar = avatars[0].file;
-      }
-      const priceAdult = event.target.priceAdult.value;
-      const priceChildren = event.target.priceChildren.value;
-      const priceBaby = event.target.priceBaby.value;
-      const priceNewAdult = event.target.priceNewAdult.value;
-      const priceNewChildren = event.target.priceNewChildren.value;
-      const priceNewBaby = event.target.priceNewBaby.value;
-      const stockAdult = event.target.stockAdult.value;
-      const stockChildren = event.target.stockChildren.value;
-      const stockBaby = event.target.stockBaby.value;
-      const locations = [];
-      const time = event.target.time.value;
-      const vehicle = event.target.vehicle.value;
-      const departureDate = event.target.departureDate.value;
-      const information = tinymce.get("information").getContent();
-      const schedules = [];
 
-      // locations
-      const listElementLocation = tourCreateForm.querySelectorAll(
-        'input[name="locations"]:checked'
-      );
-      listElementLocation.forEach((input) => {
-        locations.push(input.value);
-      });
-      // End locations
+// Roles create removed — not used in Booking-service frontend
 
-      // schedules
-      const listElementScheduleItem = tourCreateForm.querySelectorAll(
-        ".inner-schedule-item"
-      );
-      listElementScheduleItem.forEach((scheduleItem) => {
-        const input = scheduleItem.querySelector("input");
-        const title = input.value;
 
-        const textarea = scheduleItem.querySelector("textarea");
-        const idTextarea = textarea.id;
-        const description = tinymce.get(idTextarea).getContent();
+// Roles edit removed — not used in Booking-service frontend
 
-        schedules.push({
-          title: title,
-          description: description,
-        });
-      });
-      // End schedules
 
-      // Tạo FormData
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("category", category);
-      formData.append("position", position);
-      formData.append("status", status);
-      formData.append("avatar", avatar);
-      formData.append("priceAdult", priceAdult);
-      formData.append("priceChildren", priceChildren);
-      formData.append("priceBaby", priceBaby);
-      formData.append("priceNewAdult", priceNewAdult);
-      formData.append("priceNewChildren", priceNewChildren);
-      formData.append("priceNewBaby", priceNewBaby);
-      formData.append("stockAdult", stockAdult);
-      formData.append("stockChildren", stockChildren);
-      formData.append("stockBaby", stockBaby);
-      formData.append("locations", JSON.stringify(locations));
-      formData.append("time", time);
-      formData.append("vehicle", vehicle);
-      formData.append("departureDate", departureDate);
-      formData.append("information", information);
-      formData.append("schedules", JSON.stringify(schedules));
+// Profile forms removed — not used in Booking-service frontend
 
-      // images
-      if (filePondMulti.images.getFiles().length > 0) {
-        filePondMulti.images.getFiles().forEach((item) => {
-          formData.append("images", item.file);
-        });
-      }
-      // End images
-
-      fetch(`/${pathAdmin}/tour/create`, {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "error") {
-            alert(data.message);
-          }
-
-          if (data.code == "success") {
-            window.location.href = `/${pathAdmin}/tour/list`;
-          }
-        });
-    });
-}
-// End Tour Create Form
-
-// Tour Edit Form
-const tourEditForm = document.querySelector("#tour-edit-form");
-if (tourEditForm) {
-  const validation = new JustValidate("#tour-edit-form");
-
-  validation
-    .addField("#name", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập tên tour!",
-      },
-    ])
-    .onSuccess((event) => {
-      const id = event.target.id.value;
-      const name = event.target.name.value;
-      const category = event.target.category.value;
-      const position = event.target.position.value;
-      const status = event.target.status.value;
-      const avatars = filePond.avatar.getFiles();
-      let avatar = null;
-      if (avatars.length > 0) {
-        avatar = avatars[0].file;
-        const elementImageDefault =
-          event.target.avatar.closest("[image-default]");
-        const imageDefault = elementImageDefault.getAttribute("image-default");
-        if (imageDefault.includes(avatar.name)) {
-          avatar = null;
-        }
-      }
-      const priceAdult = event.target.priceAdult.value;
-      const priceChildren = event.target.priceChildren.value;
-      const priceBaby = event.target.priceBaby.value;
-      const priceNewAdult = event.target.priceNewAdult.value;
-      const priceNewChildren = event.target.priceNewChildren.value;
-      const priceNewBaby = event.target.priceNewBaby.value;
-      const stockAdult = event.target.stockAdult.value;
-      const stockChildren = event.target.stockChildren.value;
-      const stockBaby = event.target.stockBaby.value;
-      const locations = [];
-      const time = event.target.time.value;
-      const vehicle = event.target.vehicle.value;
-      const departureDate = event.target.departureDate.value;
-      const information = tinymce.get("information").getContent();
-      const schedules = [];
-
-      // locations
-      const listElementLocation = tourEditForm.querySelectorAll(
-        'input[name="locations"]:checked'
-      );
-      listElementLocation.forEach((input) => {
-        locations.push(input.value);
-      });
-      // End locations
-
-      // schedules
-      const listElementScheduleItem = tourEditForm.querySelectorAll(
-        ".inner-schedule-item"
-      );
-      listElementScheduleItem.forEach((scheduleItem) => {
-        const input = scheduleItem.querySelector("input");
-        const title = input.value;
-
-        const textarea = scheduleItem.querySelector("textarea");
-        const idTextarea = textarea.id;
-        const description = tinymce.get(idTextarea).getContent();
-
-        schedules.push({
-          title: title,
-          description: description,
-        });
-      });
-      // End schedules
-
-      // Tạo FormData
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("category", category);
-      formData.append("position", position);
-      formData.append("status", status);
-      formData.append("avatar", avatar);
-      formData.append("priceAdult", priceAdult);
-      formData.append("priceChildren", priceChildren);
-      formData.append("priceBaby", priceBaby);
-      formData.append("priceNewAdult", priceNewAdult);
-      formData.append("priceNewChildren", priceNewChildren);
-      formData.append("priceNewBaby", priceNewBaby);
-      formData.append("stockAdult", stockAdult);
-      formData.append("stockChildren", stockChildren);
-      formData.append("stockBaby", stockBaby);
-      formData.append("locations", JSON.stringify(locations));
-      formData.append("time", time);
-      formData.append("vehicle", vehicle);
-      formData.append("departureDate", departureDate);
-      formData.append("information", information);
-      formData.append("schedules", JSON.stringify(schedules));
-
-      // images
-      if (filePondMulti.images.getFiles().length > 0) {
-        filePondMulti.images.getFiles().forEach((item) => {
-          formData.append("images", item.file);
-        });
-      }
-      // End images
-
-      fetch(`/${pathAdmin}/tour/edit/${id}`, {
-        method: "PATCH",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "error") {
-            alert(data.message);
-          }
-
-          if (data.code == "success") {
-            window.location.reload();
-          }
-        });
-    });
-}
-// End Tour Edit Form
-
-// Order Edit Form
-const orderEditForm = document.querySelector("#order-edit-form");
-if (orderEditForm) {
-  const validation = new JustValidate("#order-edit-form");
-
-  validation
-    .addField("#fullName", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập họ tên!",
-      },
-      {
-        rule: "minLength",
-        value: 5,
-        errorMessage: "Họ tên phải có ít nhất 5 ký tự!",
-      },
-      {
-        rule: "maxLength",
-        value: 50,
-        errorMessage: "Họ tên không được vượt quá 50 ký tự!",
-      },
-    ])
-    .addField("#phone", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập số điện thoại!",
-      },
-      {
-        rule: "customRegexp",
-        value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
-        errorMessage: "Số điện thoại không đúng định dạng!",
-      },
-    ])
-    .onSuccess((event) => {
-      const id = event.target.id.value;
-      const fullName = event.target.fullName.value;
-      const phone = event.target.phone.value;
-      const note = event.target.note.value;
-      const paymentMethod = event.target.paymentMethod.value;
-      const paymentStatus = event.target.paymentStatus.value;
-      const status = event.target.status.value;
-
-      const dataFinal = {
-        fullName: fullName,
-        phone: phone,
-        note: note,
-        paymentMethod: paymentMethod,
-        paymentStatus: paymentStatus,
-        status: status,
-      };
-
-      fetch(`/${pathAdmin}/order/edit/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataFinal),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "error") {
-            alert(data.message);
-          }
-
-          if (data.code == "success") {
-            window.location.reload();
-          }
-        });
-    });
-}
-// End Order Edit Form
-
-// Setting Website Info Form
-const settingWebsiteInfoForm = document.querySelector(
-  "#setting-website-info-form"
-);
-if (settingWebsiteInfoForm) {
-  const validation = new JustValidate("#setting-website-info-form");
-
-  validation
-    .addField("#websiteName", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập tên website!",
-      },
-    ])
-    .addField("#email", [
-      {
-        rule: "email",
-        errorMessage: "Email không đúng định dạng!",
-      },
-    ])
-    .onSuccess((event) => {
-      const websiteName = event.target.websiteName.value;
-      const phone = event.target.phone.value;
-      const email = event.target.email.value;
-      const address = event.target.address.value;
-      const logos = filePond.logo.getFiles();
-      let logo = null;
-      if (logos.length > 0) {
-        logo = logos[0].file;
-        const elementImageDefault =
-          event.target.logo.closest("[image-default]");
-        const imageDefault = elementImageDefault.getAttribute("image-default");
-        if (imageDefault.includes(logo.name)) {
-          logo = null;
-        }
-      }
-      const favicons = filePond.favicon.getFiles();
-      let favicon = null;
-      if (favicons.length > 0) {
-        favicon = favicons[0].file;
-        const elementImageDefault =
-          event.target.favicon.closest("[image-default]");
-        const imageDefault = elementImageDefault.getAttribute("image-default");
-        if (imageDefault.includes(favicon.name)) {
-          favicon = null;
-        }
-      }
-
-      // Tạo FormData
-      const formData = new FormData();
-      formData.append("websiteName", websiteName);
-      formData.append("phone", phone);
-      formData.append("email", email);
-      formData.append("address", address);
-      formData.append("logo", logo);
-      formData.append("favicon", favicon);
-
-      fetch(`/${pathAdmin}/setting/website-info`, {
-        method: "PATCH",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "error") {
-            alert(data.message);
-          }
-
-          if (data.code == "success") {
-            window.location.reload();
-          }
-        });
-    });
-}
-// End Setting Website Info Form
-
-// Setting Account Admin Create Form
-const settingAccountAdminCreateForm = document.querySelector(
-  "#setting-account-admin-create-form"
-);
-if (settingAccountAdminCreateForm) {
-  const validation = new JustValidate("#setting-account-admin-create-form");
-
-  validation
-    .addField("#fullName", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập họ tên!",
-      },
-      {
-        rule: "minLength",
-        value: 5,
-        errorMessage: "Họ tên phải có ít nhất 5 ký tự!",
-      },
-      {
-        rule: "maxLength",
-        value: 50,
-        errorMessage: "Họ tên không được vượt quá 50 ký tự!",
-      },
-    ])
-    .addField("#email", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập email!",
-      },
-      {
-        rule: "email",
-        errorMessage: "Email không đúng định dạng!",
-      },
-    ])
-    .addField("#phone", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập số điện thoại!",
-      },
-      {
-        rule: "customRegexp",
-        value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
-        errorMessage: "Số điện thoại không đúng định dạng!",
-      },
-    ])
-    .addField("#positionCompany", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập chức vụ!",
-      },
-    ])
-    .addField("#password", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập mật khẩu!",
-      },
-      {
-        validator: (value) => value.length >= 8,
-        errorMessage: "Mật khẩu phải chứa ít nhất 8 ký tự!",
-      },
-      {
-        validator: (value) => /[A-Z]/.test(value),
-        errorMessage: "Mật khẩu phải chứa ít nhất một chữ cái in hoa!",
-      },
-      {
-        validator: (value) => /[a-z]/.test(value),
-        errorMessage: "Mật khẩu phải chứa ít nhất một chữ cái thường!",
-      },
-      {
-        validator: (value) => /\d/.test(value),
-        errorMessage: "Mật khẩu phải chứa ít nhất một chữ số!",
-      },
-      {
-        validator: (value) => /[@$!%*?&]/.test(value),
-        errorMessage: "Mật khẩu phải chứa ít nhất một ký tự đặc biệt!",
-      },
-    ])
-    .onSuccess((event) => {
-      const fullName = event.target.fullName.value;
-      const email = event.target.email.value;
-      const phone = event.target.phone.value;
-      const role = event.target.role.value;
-      const positionCompany = event.target.positionCompany.value;
-      const status = event.target.status.value;
-      const password = event.target.password.value;
-      const avatars = filePond.avatar.getFiles();
-      let avatar = null;
-      if (avatars.length > 0) {
-        avatar = avatars[0].file;
-      }
-
-      // Tạo FormData
-      const formData = new FormData();
-      formData.append("fullName", fullName);
-      formData.append("email", email);
-      formData.append("phone", phone);
-      formData.append("role", role);
-      formData.append("positionCompany", positionCompany);
-      formData.append("status", status);
-      formData.append("password", password);
-      formData.append("avatar", avatar);
-
-      fetch(`/${pathAdmin}/setting/account-admin/create`, {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "error") {
-            alert(data.message);
-          }
-
-          if (data.code == "success") {
-            window.location.href = `/${pathAdmin}/setting/account-admin/list`;
-          }
-        });
-    });
-}
-// End Setting Account Admin Create Form
-// Setting Account Admin Edit Form
-const settingAccountAdminEditForm = document.querySelector(
-  "#setting-account-admin-edit-form"
-);
-if (settingAccountAdminEditForm) {
-  const validation = new JustValidate("#setting-account-admin-edit-form");
-
-  validation
-    .addField("#fullName", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập họ tên!",
-      },
-      {
-        rule: "minLength",
-        value: 5,
-        errorMessage: "Họ tên phải có ít nhất 5 ký tự!",
-      },
-      {
-        rule: "maxLength",
-        value: 50,
-        errorMessage: "Họ tên không được vượt quá 50 ký tự!",
-      },
-    ])
-    .addField("#email", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập email!",
-      },
-      {
-        rule: "email",
-        errorMessage: "Email không đúng định dạng!",
-      },
-    ])
-    .addField("#phone", [
-      {
-        rule: "customRegexp",
-        value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
-        errorMessage: "Số điện thoại không đúng định dạng!",
-      },
-    ])
-    .addField("#positionCompany", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập chức vụ!",
-      },
-    ])
-    .addField("#password", [
-      {
-        validator: (value) => (value ? value.length >= 8 : true),
-        errorMessage: "Mật khẩu phải chứa ít nhất 8 ký tự!",
-      },
-      {
-        validator: (value) => (value ? /[A-Z]/.test(value) : true),
-        errorMessage: "Mật khẩu phải chứa ít nhất một chữ cái in hoa!",
-      },
-      {
-        validator: (value) => (value ? /[a-z]/.test(value) : true),
-        errorMessage: "Mật khẩu phải chứa ít nhất một chữ cái thường!",
-      },
-      {
-        validator: (value) => (value ? /\d/.test(value) : true),
-        errorMessage: "Mật khẩu phải chứa ít nhất một chữ số!",
-      },
-      {
-        validator: (value) => (value ? /[@$!%*?&]/.test(value) : true),
-        errorMessage: "Mật khẩu phải chứa ít nhất một ký tự đặc biệt!",
-      },
-    ])
-    .onSuccess((event) => {
-      const id = event.target.id.value;
-      const fullName = event.target.fullName.value;
-      const email = event.target.email.value;
-      const phone = event.target.phone.value;
-      const role = event.target.role.value;
-      const positionCompany = event.target.positionCompany.value;
-      const status = event.target.status.value;
-      const password = event.target.password.value;
-      const avatars = filePond.avatar.getFiles();
-      let avatar = null;
-      if (avatars.length > 0) {
-        avatar = avatars[0].file;
-        const elementImageDefault =
-          event.target.avatar.closest("[image-default]");
-        const imageDefault = elementImageDefault.getAttribute("image-default");
-        if (imageDefault.includes(avatar.name)) {
-          avatar = null;
-        }
-      }
-
-      // Tạo FormData
-      const formData = new FormData();
-      formData.append("fullName", fullName);
-      formData.append("email", email);
-      formData.append("phone", phone);
-      formData.append("role", role);
-      formData.append("positionCompany", positionCompany);
-      formData.append("status", status);
-      if (password) {
-        formData.append("password", password);
-      }
-      formData.append("avatar", avatar);
-
-      fetch(`/${pathAdmin}/setting/account-admin/edit/${id}`, {
-        method: "PATCH",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "error") {
-            alert(data.message);
-          }
-
-          if (data.code == "success") {
-            window.location.reload();
-          }
-        });
-    });
-}
-// End Setting Account Admin Edit Form
-
-// Setting Role Create Form
-const settingRoleCreateForm = document.querySelector(
-  "#setting-role-create-form"
-);
-if (settingRoleCreateForm) {
-  const validation = new JustValidate("#setting-role-create-form");
-
-  validation
-    .addField("#name", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập tên nhóm quyền!",
-      },
-    ])
-    .onSuccess((event) => {
-      const name = event.target.name.value;
-      const description = event.target.description.value;
-      const permissions = [];
-
-      // permissions
-      const listElementPermission = settingRoleCreateForm.querySelectorAll(
-        'input[name="permissions"]:checked'
-      );
-      listElementPermission.forEach((input) => {
-        permissions.push(input.value);
-      });
-      // End permissions
-
-      const dataFinal = {
-        name: name,
-        description: description,
-        permissions: permissions,
-      };
-
-      fetch(`/${pathAdmin}/setting/role/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataFinal),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "error") {
-            alert(data.message);
-          }
-
-          if (data.code == "success") {
-            window.location.href = `/${pathAdmin}/setting/role/list`;
-          }
-        });
-    });
-}
-// End Setting Role Create Form
-
-// Setting Role Edit Form
-const settingRoleEditForm = document.querySelector("#setting-role-edit-form");
-if (settingRoleEditForm) {
-  const validation = new JustValidate("#setting-role-edit-form");
-
-  validation
-    .addField("#name", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập tên nhóm quyền!",
-      },
-    ])
-    .onSuccess((event) => {
-      const id = event.target.id.value;
-      const name = event.target.name.value;
-      const description = event.target.description.value;
-      const permissions = [];
-
-      // permissions
-      const listElementPermission = settingRoleEditForm.querySelectorAll(
-        'input[name="permissions"]:checked'
-      );
-      listElementPermission.forEach((input) => {
-        permissions.push(input.value);
-      });
-      // End permissions
-
-      const dataFinal = {
-        name: name,
-        description: description,
-        permissions: permissions,
-      };
-
-      fetch(`/${pathAdmin}/setting/role/edit/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataFinal),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "error") {
-            alert(data.message);
-          }
-
-          if (data.code == "success") {
-            window.location.reload();
-          }
-        });
-    });
-}
-// End Setting Role Edit Form
-
-// Profile Edit Form
-const profileEditForm = document.querySelector("#profile-edit-form");
-if (profileEditForm) {
-  const validation = new JustValidate("#profile-edit-form");
-
-  validation
-    .addField("#fullName", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập họ tên!",
-      },
-      {
-        rule: "minLength",
-        value: 5,
-        errorMessage: "Họ tên phải có ít nhất 5 ký tự!",
-      },
-      {
-        rule: "maxLength",
-        value: 50,
-        errorMessage: "Họ tên không được vượt quá 50 ký tự!",
-      },
-    ])
-    .addField("#email", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập email!",
-      },
-      {
-        rule: "email",
-        errorMessage: "Email không đúng định dạng!",
-      },
-    ])
-    .addField("#phone", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập số điện thoại!",
-      },
-      {
-        rule: "customRegexp",
-        value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
-        errorMessage: "Số điện thoại không đúng định dạng!",
-      },
-    ])
-    .onSuccess((event) => {
-      const fullName = event.target.fullName.value;
-      const email = event.target.email.value;
-      const phone = event.target.phone.value;
-      const avatars = filePond.avatar.getFiles();
-      let avatar = null;
-      if (avatars.length > 0) {
-        avatar = avatars[0].file;
-        const elementImageDefault =
-          event.target.avatar.closest("[image-default]");
-        const imageDefault = elementImageDefault.getAttribute("image-default");
-        if (imageDefault.includes(avatar.name)) {
-          avatar = null;
-        }
-      }
-
-      // Tạo FormData
-      const formData = new FormData();
-      formData.append("fullName", fullName);
-      formData.append("email", email);
-      formData.append("phone", phone);
-      formData.append("avatar", avatar);
-
-      fetch(`/${pathAdmin}/profile/edit`, {
-        method: "PATCH",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "error") {
-            alert(data.message);
-          }
-
-          if (data.code == "success") {
-            window.location.reload();
-          }
-        });
-    });
-}
-// End Profile Edit Form
-
-// Profile Change Password Form
-const profileChangePasswordForm = document.querySelector(
-  "#profile-change-password-form"
-);
-if (profileChangePasswordForm) {
-  const validation = new JustValidate("#profile-change-password-form");
-
-  validation
-    .addField("#password", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng nhập mật khẩu!",
-      },
-      {
-        validator: (value) => value.length >= 8,
-        errorMessage: "Mật khẩu phải chứa ít nhất 8 ký tự!",
-      },
-      {
-        validator: (value) => /[A-Z]/.test(value),
-        errorMessage: "Mật khẩu phải chứa ít nhất một chữ cái in hoa!",
-      },
-      {
-        validator: (value) => /[a-z]/.test(value),
-        errorMessage: "Mật khẩu phải chứa ít nhất một chữ cái thường!",
-      },
-      {
-        validator: (value) => /\d/.test(value),
-        errorMessage: "Mật khẩu phải chứa ít nhất một chữ số!",
-      },
-      {
-        validator: (value) => /[@$!%*?&]/.test(value),
-        errorMessage: "Mật khẩu phải chứa ít nhất một ký tự đặc biệt!",
-      },
-    ])
-    .addField("#confirmPassword", [
-      {
-        rule: "required",
-        errorMessage: "Vui lòng xác nhận mật khẩu!",
-      },
-      {
-        validator: (value, fields) => {
-          const password = fields["#password"].elem.value;
-          return value == password;
-        },
-        errorMessage: "Mật khẩu xác nhận không khớp!",
-      },
-    ])
-    .onSuccess((event) => {
-      const password = event.target.password.value;
-      const dataFinal = {
-        password: password,
-      };
-
-      fetch(`/${pathAdmin}/profile/change-password`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataFinal),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code == "error") {
-            alert(data.message);
-          }
-
-          if (data.code == "success") {
-            window.location.reload();
-          }
-        });
-    });
-}
-// End Profile Change Password Form
 
 // Sider
 const sider = document.querySelector(".sider");
@@ -2454,6 +1484,21 @@ const pond = FilePond.create(document.getElementById('avatar'), {
     styleButtonProcessItemPosition: 'right bottom'
 });
 
+// Add-image button: open FilePond dialog if initialized or fallback to native input
+document.addEventListener('DOMContentLoaded', function() {
+  const addImageBtn = document.getElementById('addImage');
+  const avatarInput = document.getElementById('avatar');
+  if (!addImageBtn) return;
+
+  addImageBtn.addEventListener('click', function() {
+    if (typeof pond !== 'undefined' && pond && typeof pond.browse === 'function') {
+      pond.browse();
+    } else if (avatarInput) {
+      avatarInput.click();
+    }
+  });
+});
+
 // Form submission
 document.getElementById('category-create-form').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -2555,15 +1600,15 @@ document.getElementById('position').addEventListener('input', function() {
         document.getElementById('description').value = data.categoryDetail.description;
 
         // Populate parent category select (exclude current category)
-        const parentSelect = document.getElementById('parent');
-        const options = buildOptions(
+        const parentSelectEdit = document.getElementById('parent');
+        const optionsEdit = buildOptions(
             data.categoryList, 
             null, 
             0, 
             data.categoryDetail.parent,
             data.categoryDetail.id
         );
-        options.forEach(option => parentSelect.appendChild(option));
+        optionsEdit.forEach(option => parentSelectEdit.appendChild(option));
 
         // Update back link
         document.getElementById('backLink').href = `/${data.pathAdmin}/category/list`;
@@ -2699,3 +1744,275 @@ document.getElementById('position').addEventListener('input', function() {
                 this.value = 1;
             }
         });
+        // ===== IMAGE UPLOAD HANDLER =====
+function initImageUpload() {
+  const avatarInput = document.getElementById('avatar');
+  const imagePreview = document.getElementById('imagePreview');
+  const removeImageBtn = document.getElementById('removeImage');
+  const previewContainer = document.getElementById('preview-container');
+  const uploadLabel = document.getElementById('upload-label');
+  const imageUploadContainer = document.getElementById('imageUploadContainer');
+  
+  if (!avatarInput || !imagePreview || !removeImageBtn || !previewContainer) {
+    return;
+  }
+
+  let selectedFile = null;
+  let hasDefaultImage = false;
+
+  // Load default image if exists (for edit page)
+  if (imageUploadContainer && imageUploadContainer.hasAttribute('image-default')) {
+    const defaultImage = imageUploadContainer.getAttribute('image-default');
+    if (defaultImage) {
+      imagePreview.src = defaultImage;
+      previewContainer.classList.add('show');
+      removeImageBtn.classList.add('show');
+      hasDefaultImage = true;
+    }
+  }
+
+  // Handle file selection
+  avatarInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Kích thước ảnh không được vượt quá 5MB!');
+        avatarInput.value = '';
+        return;
+      }
+
+      selectedFile = file;
+      hasDefaultImage = false;
+      
+      const reader = new FileReader();
+      
+      reader.onload = function(event) {
+        imagePreview.src = event.target.result;
+        previewContainer.classList.add('show');
+        removeImageBtn.classList.add('show');
+      };
+      
+      reader.readAsDataURL(file);
+    } else {
+      alert('Vui lòng chọn file ảnh hợp lệ!');
+      avatarInput.value = '';
+    }
+  });
+
+  // Handle remove image
+  removeImageBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    avatarInput.value = '';
+    
+    // If there's a default image, restore it
+    if (imageUploadContainer && imageUploadContainer.hasAttribute('image-default')) {
+      const defaultImage = imageUploadContainer.getAttribute('image-default');
+      if (defaultImage) {
+        imagePreview.src = defaultImage;
+        previewContainer.classList.add('show');
+        removeImageBtn.classList.add('show');
+        hasDefaultImage = true;
+        selectedFile = null;
+        return;
+      }
+    }
+    
+    // Otherwise, hide preview
+    imagePreview.src = '';
+    previewContainer.classList.remove('show');
+    removeImageBtn.classList.remove('show');
+    selectedFile = null;
+    hasDefaultImage = false;
+  });
+
+  return { selectedFile, hasDefaultImage };
+}
+
+// Initialize TinyMCE
+function initTinyMCE(selector) {
+  if (typeof tinymce === 'undefined') {
+    console.error('TinyMCE not loaded');
+    return;
+  }
+
+  tinymce.init({
+    selector: selector || '#description',
+    height: 300,
+    menubar: false,
+    language: 'vi',
+    plugins: [
+      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+      'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
+    ],
+    toolbar: 'undo redo | blocks | ' +
+      'bold italic forecolor | alignleft aligncenter ' +
+      'alignright alignjustify | bullist numlist outdent indent | ' +
+      'removeformat | help',
+    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+  });
+}
+
+// ===== CATEGORY CREATE FORM =====
+const categoryCreateForm = document.querySelector("#category-create-form");
+if (categoryCreateForm) {
+  // Initialize image upload
+  const imageUpload = initImageUpload();
+  
+  // Initialize TinyMCE
+  initTinyMCE('#description');
+
+  categoryCreateForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const parent = document.getElementById('parent').value;
+    const position = document.getElementById('position').value;
+    const status = document.getElementById('status').value;
+    const avatarInput = document.getElementById('avatar');
+    const description = tinymce.get('description') ? tinymce.get('description').getContent() : '';
+
+    // Validation
+    if (!name) {
+      alert('Vui lòng nhập tên danh mục!');
+      document.getElementById('name').focus();
+      return;
+    }
+
+    // Create FormData
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('parent', parent);
+    formData.append('position', position);
+    formData.append('status', status);
+    formData.append('description', description);
+
+    // Add avatar if selected
+    if (avatarInput.files.length > 0) {
+      formData.append('avatar', avatarInput.files[0]);
+    }
+
+    try {
+      const response = await fetch(`/${pathAdmin}/category/create`, {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.code === 'success') {
+        alert('Tạo danh mục thành công!');
+        window.location.href = `/${pathAdmin}/category/list`;
+      } else {
+        alert('Lỗi: ' + (data.message || 'Không thể tạo danh mục'));
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Có lỗi xảy ra khi tạo danh mục');
+    }
+  });
+
+  // Validation on blur
+  document.getElementById('name').addEventListener('blur', function() {
+    if (this.value.trim() === '') {
+      this.style.borderColor = 'red';
+    } else {
+      this.style.borderColor = '';
+    }
+  });
+
+  document.getElementById('position').addEventListener('input', function() {
+    if (this.value < 1) {
+      this.value = 1;
+    }
+  });
+}
+
+// ===== CATEGORY EDIT FORM =====
+const categoryEditForm = document.querySelector("#category-edit-form");
+if (categoryEditForm) {
+  // Initialize image upload
+  const imageUpload = initImageUpload();
+  
+  // Initialize TinyMCE
+  initTinyMCE('#description');
+
+  categoryEditForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const id = document.getElementById('id').value;
+    const name = document.getElementById('name').value.trim();
+    const parent = document.getElementById('parent').value;
+    const position = document.getElementById('position').value;
+    const status = document.getElementById('status').value;
+    const avatarInput = document.getElementById('avatar');
+    const description = tinymce.get('description') ? tinymce.get('description').getContent() : '';
+
+    // Validation
+    if (!name) {
+      alert('Vui lòng nhập tên danh mục!');
+      document.getElementById('name').focus();
+      return;
+    }
+
+    // Create FormData
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('parent', parent);
+    formData.append('position', position);
+    formData.append('status', status);
+    formData.append('description', description);
+
+    // Add avatar if new file selected
+    if (avatarInput.files.length > 0) {
+      const file = avatarInput.files[0];
+      const imageUploadContainer = document.getElementById('imageUploadContainer');
+      
+      // Check if it's a new file (not the default image)
+      if (imageUploadContainer && imageUploadContainer.hasAttribute('image-default')) {
+        const defaultImage = imageUploadContainer.getAttribute('image-default');
+        if (!defaultImage.includes(file.name)) {
+          formData.append('avatar', file);
+        }
+      } else {
+        formData.append('avatar', file);
+      }
+    }
+
+    try {
+      const response = await fetch(`/${pathAdmin}/category/edit/${id}`, {
+        method: 'PATCH',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.code === 'success') {
+        alert('Cập nhật danh mục thành công!');
+        window.location.reload();
+      } else {
+        alert('Lỗi: ' + (data.message || 'Không thể cập nhật danh mục'));
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Có lỗi xảy ra khi cập nhật danh mục');
+    }
+  });
+
+  // Validation on blur
+  document.getElementById('name').addEventListener('blur', function() {
+    if (this.value.trim() === '') {
+      this.style.borderColor = 'red';
+    } else {
+      this.style.borderColor = '';
+    }
+  });
+
+  document.getElementById('position').addEventListener('input', function() {
+    if (this.value < 1) {
+      this.value = 1;
+    }
+  });
+}
+

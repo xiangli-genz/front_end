@@ -1613,3 +1613,108 @@ a {
   background-color: #a3e0a3;
 }
 /* End Alert */
+
+/* Upload Image Container */
+.section-8 form .inner-upload-image {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+}
+
+.section-8 form .inner-upload-image input[type="file"] {
+  display: none;
+}
+
+.section-8 form .inner-upload-image .inner-upload-label {
+  width: 200px;
+  height: 200px;
+  background-color: #F5F6FA;
+  border: 2px dashed #D5D5D5;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.section-8 form .inner-upload-image .inner-upload-label:hover {
+  border-color: var(--color-primary);
+  background-color: #f0f2f5;
+}
+
+.section-8 form .inner-upload-image .inner-upload-label i {
+  font-size: 48px;
+  color: #D5D5D5;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.section-8 form .inner-upload-image .inner-upload-label:hover i {
+  color: var(--color-primary);
+}
+
+.section-8 form .inner-upload-image .inner-upload-label span {
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
+}
+
+/* Image Preview Container */
+.section-8 form .inner-upload-image .image-preview-container {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  display: none;
+}
+
+.section-8 form .inner-upload-image .image-preview-container.show {
+  display: block;
+}
+
+.section-8 form .inner-upload-image .image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #D5D5D5;
+}
+
+.section-8 form .inner-upload-image .remove-image {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 32px;
+  height: 32px;
+  background-color: #F93C65;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.section-8 form .inner-upload-image .remove-image.show {
+  display: flex;
+}
+
+.section-8 form .inner-upload-image .remove-image:hover {
+  background-color: #E02850;
+  transform: scale(1.1);
+}
+
+.section-8 form .inner-upload-image .remove-image i {
+  font-size: 14px;
+}
+
+/* Hide upload label when preview is shown */
+.section-8 form .inner-upload-image .image-preview-container.show ~ .inner-upload-label {
+  display: none;
+}

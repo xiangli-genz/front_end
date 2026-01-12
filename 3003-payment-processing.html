@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đang xử lý thanh toán</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="/Booking-service/frontend/css/3003-style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="icon">
+                <i class="fa-solid fa-spinner"></i>
+            </div>
+            
+            <h1>Đang xử lý thanh toán</h1>
+            
+            <p class="description">
+                Vui lòng không tắt trình duyệt hoặc nhấn nút Back.<br>
+                Chúng tôi đang xử lý giao dịch của bạn...
+            </p>
+            
+            <div id="payment-info" class="info-box" style="display: none;">
+                <div class="info-row">
+                    <span class="info-label">Mã thanh toán</span>
+                    <span class="info-value" id="payment-code">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Số tiền</span>
+                    <span class="info-value" id="payment-amount">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Phương thức</span>
+                    <span class="info-value" id="payment-method">-</span>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <p class="progress-text" id="progress-text">Đang kiểm tra trạng thái...</p>
+
+            <div class="notice">
+                <i class="fa-solid fa-info-circle"></i>
+                Quá trình thanh toán có thể mất từ 30 giây đến 2 phút.
+            </div>
+            
+            <p class="security">
+                <i class="fa-solid fa-lock"></i>
+                Giao dịch được bảo mật
+            </p>
+        </div>
+    </div>
+    <script src="/Booking-service/frontend/js/3003-scripts.js"></script>
+    
+
+    <!-- <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentCode = urlParams.get('paymentCode');
+        const amount = urlParams.get('amount');
+        const method = urlParams.get('method');
+
+        if (paymentCode || amount || method) {
+            document.getElementById('payment-info').style.display = 'block';
+            
+            if (paymentCode) {
+                document.getElementById('payment-code').textContent = paymentCode;
+            }
+            if (amount) {
+                document.getElementById('payment-amount').textContent = 
+                    new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+            }
+            if (method) {
+                const methodNames = {
+                    'momo': 'MoMo',
+                    'zalopay': 'ZaloPay',
+                    'vnpay': 'VNPay',
+                    'cash': 'Tiền mặt',
+                    'bank': 'Chuyển khoản'
+                };
+                document.getElementById('payment-method').textContent = methodNames[method] || method;
+            }
+        }
+
+        const progressText = document.getElementById('progress-text');
+        const steps = [
+            'Đang kiểm tra trạng thái...',
+            'Đang xác thực thanh toán...',
+            'Đang chờ xác nhận...',
+            'Đang hoàn tất...'
+        ];
+        
+        let currentStep = 0;
+        setInterval(() => {
+            currentStep = (currentStep + 1) % steps.length;
+            progressText.textContent = steps[currentStep];
+        }, 3000);
+    </script> -->
+</body>
+</html>
